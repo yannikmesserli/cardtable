@@ -181,3 +181,23 @@
   font-size: 0.75rem;
   font-weight: 600;
 }
+
+/* Drop slots */
+
+.drop-slot {
+  flex: none;
+  width: var(--card-w);
+  height: var(--card-h);
+  border: 2px dashed rgb(255 213 74 / 70%);
+  border-radius: 8px;
+  background: rgb(255 213 74 / 10%);
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.drop-slot.over {
+  border-style: solid;
+  background: rgb(255 213 74 / 25%);
+  box-shadow: 0 0 16px rgb(255 213 74 / 60%);
+}
