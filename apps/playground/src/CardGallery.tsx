@@ -34,6 +34,7 @@ export function CardGallery() {
     <main className="gallery">
       <header>
         <h1>Card gallery</h1>
+        <a href="#match">Match</a>
         <a href="#tools">Deck tools</a>
         <a href="#">Back to War</a>
       </header>

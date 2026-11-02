@@ -21,7 +21,7 @@ Dependencies only point downward: `games → engine → core`, and `react → en
 
 ```sh
 pnpm install
-pnpm dev          # playground on http://localhost:5173 (card gallery at /#cards, deck tools at /#tools)
+pnpm dev          # playground on http://localhost:5173 (Match at /#match, card gallery at /#cards, deck tools at /#tools)
 pnpm test         # unit tests (Vitest)
 pnpm scenarios    # interactive scenario picker
 pnpm scenarios war-tie   # run a scenario directly
