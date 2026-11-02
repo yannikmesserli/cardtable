@@ -1,4 +1,4 @@
-import { type CardId, type Rng, shuffle } from '@cardtable/core';
+import { type CardId, type CardPick, type Rng, shuffle } from '@cardtable/core';
 import type { MoveEvent, ShuffleEvent, ZoneId } from './types';
 
 /** A zone as seen by the helpers below: its id and its cards. Index 0 is the top. */
@@ -29,6 +29,20 @@ export function moveCard<C extends { readonly id: CardId }>(
   to.cards.splice(at, 0, card);
   emit({ type: 'move', cardId: card.id, from: from.zone, to: to.zone, faceUp });
   return card;
+}
+
+/**
+ * Moves the first card of `from` (from the top) that matches `pick`, e.g. to
+ * search the deck for a given card. Returns it, or null when none matches.
+ */
+export function moveMatching<C extends { readonly id: CardId }>(
+  from: ZoneRef<C>,
+  to: ZoneRef<C>,
+  pick: CardPick<C>,
+  options: Omit<MoveCardOptions, 'cardId'>,
+): C | null {
+  const card = from.cards.find(pick);
+  return card ? moveCard(from, to, { ...options, cardId: card.id }) : null;
 }
 
 /** Shuffles a zone in place and emits the shuffle event. */
