@@ -11,14 +11,17 @@ export type Rank = (typeof RANKS)[number];
  */
 export type CardId = string;
 
+/** Face of a standard playing card. */
 export interface CardFace {
   readonly suit: Suit;
   readonly rank: Rank;
 }
 
-export interface Card extends CardFace {
-  readonly id: CardId;
-}
+/**
+ * A card is a face plus an id. `F` defaults to a standard face; games with
+ * their own cards pass any plain object (without `id` or `hidden` keys).
+ */
+export type Card<F extends object = CardFace> = F & { readonly id: CardId };
 
 /** A card whose face is unknown to the viewer. */
 export interface HiddenCard {
@@ -26,11 +29,12 @@ export interface HiddenCard {
   readonly hidden: true;
 }
 
-export type MaybeHidden = Card | HiddenCard;
+export type MaybeHidden<F extends object = CardFace> = Card<F> | HiddenCard;
 
-export const isHidden = (card: MaybeHidden): card is HiddenCard => 'hidden' in card;
+export const isHidden = <C extends { readonly id: CardId }>(card: C | HiddenCard): card is HiddenCard =>
+  'hidden' in card;
 
-export const hide = (card: MaybeHidden): HiddenCard => ({ id: card.id, hidden: true });
+export const hide = <C extends { readonly id: CardId }>(card: C): HiddenCard => ({ id: card.id, hidden: true });
 
 const RANK_LABELS: Partial<Record<Rank, string>> = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' };
 

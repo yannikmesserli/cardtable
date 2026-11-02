@@ -16,9 +16,9 @@ export function standardFaces(): CardFace[] {
   return SUITS.flatMap((suit) => RANKS.map((rank) => ({ suit, rank })));
 }
 
-export interface CreateDeckOptions {
-  /** Faces to use. Defaults to a standard 52 card deck. */
-  faces?: readonly CardFace[];
+export interface CreateDeckOptions<F extends object = CardFace> {
+  /** Faces to use, in any shape. Defaults to a standard 52 card deck. */
+  faces?: readonly F[];
   /** Number of decks combined (e.g. a 6-deck blackjack shoe). */
   copies?: number;
   /** Prefix for generated ids. */
@@ -29,7 +29,10 @@ export interface CreateDeckOptions {
  * Creates a shuffled deck. Ids are assigned *after* shuffling, so a card's id
  * reveals nothing about its face, even when rendered face down.
  */
-export function createDeck(rng: Rng, { faces = standardFaces(), copies = 1, idPrefix = 'c' }: CreateDeckOptions = {}): Card[] {
+export function createDeck<F extends object = CardFace>(
+  rng: Rng,
+  { faces = standardFaces() as unknown as F[], copies = 1, idPrefix = 'c' }: CreateDeckOptions<F> = {},
+): Card<F>[] {
   const all = Array.from({ length: copies }, () => faces).flat();
   return shuffle(rng, all).map((face, i) => ({ ...face, id: `${idPrefix}${i}` }));
 }
