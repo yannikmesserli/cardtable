@@ -1,6 +1,6 @@
 import { createRng } from '@cardtable/core';
 import { describe, expect, it } from 'vitest';
-import { type MoveEvent, moveCard, type ShuffleEvent, shuffleZone } from './index';
+import { drawAccepted, type MoveEvent, moveCard, type ShuffleEvent, shuffleBack, shuffleZone } from './index';
 
 const cards = (...ids: string[]) => ids.map((id) => ({ id }));
 
@@ -42,5 +42,58 @@ describe('shuffleZone', () => {
     expect(deck.cards.map((c) => c.id)).not.toEqual([...'abcdefghij']);
     expect(deck.cards.map((c) => c.id).sort()).toEqual([...'abcdefghij']);
     expect(events).toEqual([{ type: 'shuffle', zone: 'deck' }]);
+  });
+});
+
+describe('drawAccepted', () => {
+  const special = (c: { id: string }) => c.id.startsWith('x');
+
+  it('sets rejected cards aside until enough cards are drawn', () => {
+    const events: MoveEvent[] = [];
+    const deck = { zone: 'deck', cards: cards('a', 'x1', 'b', 'x2', 'c', 'd') };
+    const hand = { zone: 'hand', cards: [] };
+    const aside = { zone: 'aside', cards: [] };
+    const ok = drawAccepted(deck, hand, aside, { emit: (e) => events.push(e), count: 3, accept: (c) => !special(c), faceUp: true });
+    expect(ok).toBe(true);
+    expect(hand.cards).toEqual(cards('a', 'b', 'c'));
+    expect(aside.cards).toEqual(cards('x1', 'x2'));
+    expect(deck.cards).toEqual(cards('d'));
+    expect(events.map((e) => `${e.cardId}>${e.to}:${e.faceUp}`)).toEqual([
+      'a>hand:true',
+      'x1>aside:true',
+      'b>hand:true',
+      'x2>aside:true',
+      'c>hand:true',
+    ]);
+  });
+
+  it('reports when the deck runs out', () => {
+    const deck = { zone: 'deck', cards: cards('a', 'x1') };
+    const hand = { zone: 'hand', cards: [] };
+    const aside = { zone: 'aside', cards: [] };
+    expect(drawAccepted(deck, hand, aside, { emit: () => {}, count: 2, accept: (c) => !special(c), faceUp: true })).toBe(false);
+    expect(hand.cards).toEqual(cards('a'));
+    expect(aside.cards).toEqual(cards('x1'));
+  });
+});
+
+describe('shuffleBack', () => {
+  it('returns set-aside cards face down and shuffles the deck', () => {
+    const events: (MoveEvent | ShuffleEvent)[] = [];
+    const deck = { zone: 'deck', cards: cards(...'abcdefgh') };
+    const aside = { zone: 'aside', cards: cards('x1', 'x2') };
+    shuffleBack(createRng(1), aside, deck, (e) => events.push(e));
+    expect(aside.cards).toEqual([]);
+    expect(deck.cards.map((c) => c.id).sort()).toEqual([...'abcdefgh', 'x1', 'x2'].sort());
+    expect(events.map((e) => e.type)).toEqual(['move', 'move', 'shuffle']);
+    expect(events.every((e) => e.type !== 'move' || !e.faceUp)).toBe(true);
+  });
+
+  it('does nothing without set-aside cards', () => {
+    const events: ShuffleEvent[] = [];
+    const deck = { zone: 'deck', cards: cards('a', 'b') };
+    shuffleBack(createRng(1), { zone: 'aside', cards: [] }, deck, (e) => events.push(e as ShuffleEvent));
+    expect(deck.cards).toEqual(cards('a', 'b'));
+    expect(events).toEqual([]);
   });
 });
