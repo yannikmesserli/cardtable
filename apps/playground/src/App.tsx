@@ -1,11 +1,9 @@
 import { cardLabel } from '@cardtable/core';
 import type { Outcome } from '@cardtable/engine';
 import { type WarAction, type WarEvent, type WarView, war } from '@cardtable/games/war';
+import { Pile, PlayingCard, useMatch } from '@cardtable/react';
 import { LayoutGroup } from 'motion/react';
 import { useEffect, useState } from 'react';
-import { Pile } from './components/Pile';
-import { PlayingCard } from './components/PlayingCard';
-import { useMatch } from './useMatch';
 
 const HUMAN = 'p0';
 const BOT = 'p1';

@@ -1,6 +1,7 @@
+import type { JSX } from 'react';
 import { AnimatedCard } from './AnimatedCard';
 
-interface PileProps {
+export interface PileProps {
   /** Any kind of card: only ids are used, faces are never shown. */
   cards: readonly { readonly id: string }[];
   onClick?: (() => void) | undefined;
@@ -10,7 +11,7 @@ interface PileProps {
 const MAX_LIFT = 10;
 
 /** Face-down stack; `cards[0]` is the top card. */
-export function Pile({ cards, onClick, label }: PileProps) {
+export function Pile({ cards, onClick, label }: PileProps): JSX.Element {
   return (
     <button type="button" className="pile" onClick={onClick} disabled={!onClick} aria-label={label}>
       <div className="slot" />

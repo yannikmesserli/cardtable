@@ -1,0 +1,42 @@
+{
+  "name": "@cardtable/react",
+  "version": "0.0.0",
+  "description": "React bindings and animated card components for @cardtable/engine.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": ["*.css"],
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "./styles.css": "./src/styles.css"
+    }
+  },
+  "dependencies": {
+    "@cardtable/core": "workspace:*",
+    "@cardtable/engine": "workspace:*"
+  },
+  "peerDependencies": {
+    "motion": "^14.6.0",
+    "react": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "motion": "^14.6.0",
+    "react": "^19.3.1"
+  },
+  "files": [
+    "dist",
+    "src/styles.css"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit"
+  }
+}
