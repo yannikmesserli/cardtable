@@ -1,4 +1,4 @@
-import { type Card, createDeck, hide, type MaybeHidden, rankValue, shuffle } from '@cardtable/core';
+import { type Card, createDeck, hide, hidePile, type MaybeHidden, rankValue, shuffle } from '@cardtable/core';
 import { defineGame, type GameDefinition, type MoveEvent, type Outcome, type PlayerId } from '@cardtable/engine';
 
 export interface WarOptions {
@@ -211,7 +211,7 @@ export const war: GameDefinition<WarState, WarAction, WarEvent, WarView, WarOpti
   // Nobody knows the order of any pile, and face-down war cards stay hidden.
   playerView: (s) => ({
     ...s,
-    piles: Object.fromEntries(Object.entries(s.piles).map(([p, pile]) => [p, pile.map(hide)])),
+    piles: Object.fromEntries(Object.entries(s.piles).map(([p, pile]) => [p, hidePile(pile)])),
     battle: Object.fromEntries(
       Object.entries(s.battle).map(([p, played]) => [
         p,

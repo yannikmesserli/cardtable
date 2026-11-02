@@ -5,6 +5,7 @@ import {
   createRng,
   faceIs,
   hide,
+  hidePile,
   isHidden,
   parseFace,
   rankValue,
@@ -98,6 +99,14 @@ describe('card helpers', () => {
     const hidden = hide({ id: 'c9', rank: 5, suit: 'hearts' });
     expect(hidden).toEqual({ id: 'c9', hidden: true });
     expect(isHidden(hidden)).toBe(true);
+  });
+
+  it('hides the order of a pile', () => {
+    const deck = createDeck(createRng(1)).slice(0, 5);
+    const view = hidePile(deck);
+    expect(view.every(isHidden)).toBe(true);
+    expect(hidePile(shuffle(createRng(2), deck))).toEqual(view);
+    expect(view.map((c) => c.id).sort()).toEqual(deck.map((c) => c.id).sort());
   });
 
   it('ranks aces high on demand', () => {
