@@ -139,8 +139,14 @@ describe('player view', () => {
     const view = viewFor(war, match, 'p0');
     expect(view.piles.p0!.every((c) => 'hidden' in c)).toBe(true);
     expect(view.battle.p0!.map((p) => cardLabel(p.card))).toEqual(['7♠', '🂠', '🂠', '🂠', 'Q♦']);
-    // Ids survive redaction so renderers can animate cards.
-    expect(view.piles.p1!.map((c) => c.id)).toEqual(match.state.piles.p1!.map((c) => c.id));
+    // Ids survive redaction so renderers can animate cards, but not their order.
+    expect(view.piles.p1!.map((c) => c.id).sort()).toEqual(match.state.piles.p1!.map((c) => c.id).sort());
+  });
+
+  it('does not reveal where known cards are in a pile', () => {
+    const { match } = createMatch(war, { players, seed: 1 });
+    const reversed = { ...match.state, piles: { ...match.state.piles, p0: [...match.state.piles.p0!].reverse() } };
+    expect(war.playerView!(reversed, 'p0')).toEqual(war.playerView!(match.state, 'p0'));
   });
 });
 

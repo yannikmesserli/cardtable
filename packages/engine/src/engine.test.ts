@@ -1,4 +1,4 @@
-import { type Card, createDeck, hide, type MaybeHidden, rankValue } from '@cardtable/core';
+import { type Card, createDeck, hide, hidePile, type MaybeHidden, rankValue } from '@cardtable/core';
 import { describe, expect, it } from 'vitest';
 import {
   applyAction,
@@ -60,7 +60,7 @@ const highCard = defineGame<HighCardState, HighCardAction, MoveEvent, HighCardSt
   },
   playerView: (s, viewer) => ({
     ...s,
-    deck: s.deck.map(hide),
+    deck: hidePile(s.deck),
     hands: Object.fromEntries(
       Object.entries(s.hands).map(([p, c]) => [p, p === viewer || s.revealed.includes(p) ? c : hide(c)]),
     ),

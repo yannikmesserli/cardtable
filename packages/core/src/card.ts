@@ -36,6 +36,14 @@ export const isHidden = <C extends { readonly id: CardId }>(card: C | HiddenCard
 
 export const hide = <C extends { readonly id: CardId }>(card: C): HiddenCard => ({ id: card.id, hidden: true });
 
+/**
+ * Hides a face-down pile, including its order: cards come back sorted by id.
+ * Hiding each card is not enough, because ids are stable: a card seen face up
+ * could be tracked to its position after a shuffle.
+ */
+export const hidePile = <C extends { readonly id: CardId }>(cards: readonly C[]): HiddenCard[] =>
+  cards.map(hide).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+
 const RANK_LABELS: Partial<Record<Rank, string>> = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' };
 
 export const SUIT_SYMBOLS: Record<Suit, string> = {
