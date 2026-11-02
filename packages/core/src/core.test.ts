@@ -67,6 +67,15 @@ describe('deck', () => {
     expect(shoe).toHaveLength(312);
     expect(new Set(shoe.map((c) => c.id)).size).toBe(312);
   });
+
+  it('accepts custom faces', () => {
+    const faces = [{ color: 'red', symbol: 'sun' }, { color: 'blue', symbol: 'moon' }] as const;
+    const deck = createDeck(createRng(1), { faces, copies: 2, idPrefix: 'x' });
+    expect(deck).toHaveLength(4);
+    expect(deck.map((c) => c.id)).toEqual(['x0', 'x1', 'x2', 'x3']);
+    expect(deck.filter((c) => c.color === 'red')).toHaveLength(2);
+    expect(hide(deck[0]!)).toEqual({ id: 'x0', hidden: true });
+  });
 });
 
 describe('card helpers', () => {
