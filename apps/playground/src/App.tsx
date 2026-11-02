@@ -105,6 +105,7 @@ export function App() {
 
       <aside className="panel">
         <h1>War</h1>
+        <a href="#cards">Card gallery</a>
         <label>
           Seed
           <input value={seed} onChange={(e) => setSeed(e.target.value)} />
