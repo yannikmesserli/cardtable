@@ -1,6 +1,6 @@
 import { createRng } from '@cardtable/core';
 import { describe, expect, it } from 'vitest';
-import { drawAccepted, type MoveEvent, moveCard, type ShuffleEvent, shuffleBack, shuffleZone } from './index';
+import { drawAccepted, type MoveEvent, moveCard, moveMatching, type ShuffleEvent, shuffleBack, shuffleZone } from './index';
 
 const cards = (...ids: string[]) => ids.map((id) => ({ id }));
 
@@ -29,6 +29,49 @@ describe('moveCard', () => {
     const hand = { zone: 'hand', cards: cards('a') };
     expect(() => moveCard(empty, hand, { emit: () => {}, faceUp: false })).toThrow(/on top in deck/);
     expect(() => moveCard(hand, empty, { emit: () => {}, faceUp: false, cardId: 'z' })).toThrow(/z in hand/);
+  });
+});
+
+describe('moveMatching', () => {
+  const deckOf = () => ({
+    zone: 'deck',
+    cards: [
+      { id: 'a', color: 'red', icon: 'sun' },
+      { id: 'b', color: 'blue', icon: 'moon' },
+      { id: 'c', color: 'blue', icon: 'sun' },
+      { id: 'd', color: 'blue', icon: 'sun' },
+    ],
+  });
+
+  it('moves the first matching card from the top and emits the move', () => {
+    const events: MoveEvent[] = [];
+    const deck = deckOf();
+    const hand = { zone: 'hand', cards: [] as typeof deck.cards };
+    const moved = moveMatching(deck, hand, (c) => c.color === 'blue' && c.icon === 'sun', {
+      emit: (e) => events.push(e),
+      faceUp: true,
+    });
+    expect(moved?.id).toBe('c');
+    expect(hand.cards.map((c) => c.id)).toEqual(['c']);
+    expect(deck.cards.map((c) => c.id)).toEqual(['a', 'b', 'd']);
+    expect(events).toEqual([{ type: 'move', cardId: 'c', from: 'deck', to: 'hand', faceUp: true }]);
+  });
+
+  it('accepts a destination index', () => {
+    const deck = deckOf();
+    const hand = { zone: 'hand', cards: [{ id: 'x', color: 'red', icon: 'moon' }] };
+    moveMatching(deck, hand, (c) => c.icon === 'moon', { emit: () => {}, faceUp: true, at: 0 });
+    expect(hand.cards.map((c) => c.id)).toEqual(['b', 'x']);
+  });
+
+  it('returns null and changes nothing when no card matches', () => {
+    const events: MoveEvent[] = [];
+    const deck = deckOf();
+    const hand = { zone: 'hand', cards: [] as typeof deck.cards };
+    expect(moveMatching(deck, hand, (c) => c.color === 'green', { emit: (e) => events.push(e), faceUp: true })).toBeNull();
+    expect(deck.cards).toHaveLength(4);
+    expect(hand.cards).toEqual([]);
+    expect(events).toEqual([]);
   });
 });
 
