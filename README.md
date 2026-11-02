@@ -65,6 +65,8 @@ Some rules stop halfway to ask a player something, e.g. "a card was drawn: keep 
 
 See `packages/engine/src/pending.test.ts` for a small example.
 
+`startArrange`, `arrangeActions` and `applyArrange` implement a common choice of this kind: look at the top cards of the deck, discard some, and put the rest back in any order, one card per action. See `packages/engine/src/arrange.test.ts`.
+
 ## Scenarios
 
 `pnpm scenarios` opens a menu of hand-crafted situations (ties, double wars, running out of cards…). Inside a scenario:
