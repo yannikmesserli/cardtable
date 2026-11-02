@@ -40,6 +40,7 @@ export function DeckTools() {
     <main className="gallery tools">
       <header>
         <h1>Deck tools</h1>
+        <a href="#match">Match</a>
         <a href="#cards">Card gallery</a>
         <a href="#">War</a>
       </header>

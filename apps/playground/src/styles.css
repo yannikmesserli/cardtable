@@ -212,3 +212,155 @@ button {
   gap: 8px;
   min-height: var(--card-h);
 }
+
+/* Match */
+
+.match-table {
+  /* Blue felt to tell it apart from War. */
+  --felt: #1f4f6b;
+  --felt-dark: #15364d;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: center;
+  gap: 24px;
+  min-height: 100vh;
+  padding: 24px;
+  background: radial-gradient(circle at center, var(--felt), var(--felt-dark));
+}
+
+.match-table .match-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.match-table .track-scroll {
+  width: min(100%, 960px);
+  overflow-x: auto;
+  padding: 4px 0 12px;
+}
+
+.match-table .track {
+  display: flex;
+  width: max-content;
+  /* Centered while short; auto margins collapse once it overflows, so nothing is cut off. */
+  margin-inline: auto;
+  padding: 0 4px;
+}
+
+/* Each card covers most of the previous one, leaving its left edge visible. */
+.match-table .track > .card + .card,
+.match-table .track > .card + .drop-slot {
+  margin-left: calc(var(--card-w) * -0.6);
+}
+
+.match-table .match-hand {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  min-height: var(--card-h);
+}
+
+.match-table .hand-card {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: grab;
+  touch-action: none;
+}
+
+.match-table .hand-card:active {
+  cursor: grabbing;
+}
+
+/* Cards that cannot go to the track can still be discarded. */
+.match-table .hand-card:not(.playable) {
+  filter: saturate(0.5) brightness(0.8);
+}
+
+.match-table .discard-zone {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+
+.match-table .discard {
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+}
+
+.match-table .discard > .card {
+  position: absolute;
+  inset: 0;
+}
+
+.match-table .discard > .drop-slot {
+  position: absolute;
+  inset: 0;
+}
+
+.match-table .match-status {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.match-table .meta {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+
+.match-table footer button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Shuffle card choice */
+
+.match-table .backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 10%);
+}
+
+.match-table .choice {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 24px 32px;
+  border-radius: 14px;
+  background: var(--felt-dark);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 45%);
+  text-align: center;
+}
+
+.match-table .choice h2,
+.match-table .choice p {
+  margin: 0;
+}
+
+.match-table .choice-buttons {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.match-table .choice-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: #ffd54a;
+  color: #222;
+  font-weight: 600;
+}
+
+.match-table a {
+  color: #ffd54a;
+}
