@@ -51,7 +51,7 @@ const result = applyAction(myGame, match, 'a', { type: 'play' }); // { ok, match
 - **Deterministic**: all randomness comes from the seeded `rng`, whose state is stored in the match. `replay(game, config, log)` rebuilds any match.
 - **Validated**: `applyAction` rejects actions from inactive players and actions not in `legalActions`.
 - **Hidden information**: `playerView` replaces unknown cards with `{ id, hidden: true }`. Card ids are assigned after shuffling, so they never leak faces, and they stay stable so renderers can animate them.
-- **Events**: `apply` emits events such as `{ type: 'move', cardId, from, to, faceUp }`. They drive animations and logs.
+- **Events**: `apply` emits events such as `{ type: 'move', cardId, from, to, faceUp }` or `{ type: 'shuffle', zone }`. They drive animations and logs. `moveCard` and `shuffleZone` update zones and emit these events in one call.
 - **Bots**: `simulate(game, config)` plays full matches. It's useful for property tests (see `war.test.ts`).
 
 ## Scenarios
