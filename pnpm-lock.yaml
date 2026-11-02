@@ -32,6 +32,9 @@ importers:
       '@cardtable/games':
         specifier: workspace:*
         version: link:../../packages/games
+      '@cardtable/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       motion:
         specifier: ^14.6.0
         version: 14.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -87,6 +90,25 @@ importers:
       '@cardtable/engine':
         specifier: workspace:*
         version: link:../engine
+
+  packages/react:
+    dependencies:
+      '@cardtable/core':
+        specifier: workspace:*
+        version: link:../core
+      '@cardtable/engine':
+        specifier: workspace:*
+        version: link:../engine
+    devDependencies:
+      '@types/react':
+        specifier: ^19.3.0
+        version: 19.3.0
+      motion:
+        specifier: ^14.6.0
+        version: 14.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
 
 packages:
 

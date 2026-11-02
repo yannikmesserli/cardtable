@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, JSX, ReactNode } from 'react';
 
-interface AnimatedCardProps {
+export interface AnimatedCardProps {
   id: string;
   faceUp: boolean;
   /** Front of the card. Not rendered when the card is hidden. */
@@ -18,7 +18,7 @@ const move = { type: 'spring', stiffness: 260, damping: 28 } as const;
  * `layoutId` is the card id: when a card is rendered in another zone, Motion
  * animates it from its previous position.
  */
-export function AnimatedCard({ id, faceUp, children, flipOnMount = false, style }: AnimatedCardProps) {
+export function AnimatedCard({ id, faceUp, children, flipOnMount = false, style }: AnimatedCardProps): JSX.Element {
   return (
     <motion.div layoutId={id} className="card" style={style} transition={move}>
       <motion.div

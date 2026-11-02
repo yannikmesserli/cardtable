@@ -1,6 +1,4 @@
 :root {
-  --card-w: 84px;
-  --card-h: 118px;
   --felt: #1f6b45;
   --felt-dark: #154d31;
   font-family: system-ui, sans-serif;
@@ -49,33 +47,6 @@ button {
   min-width: 80px;
 }
 
-.pile {
-  position: relative;
-  width: var(--card-w);
-  height: var(--card-h);
-  padding: 0;
-  border: none;
-  background: none;
-}
-
-.pile:disabled {
-  cursor: default;
-}
-
-.pile:not(:disabled):hover,
-.pile:not(:disabled):focus-visible {
-  outline: 2px solid #ffd54a;
-  outline-offset: 4px;
-  border-radius: 8px;
-}
-
-.slot {
-  position: absolute;
-  inset: 0;
-  border: 2px dashed rgb(255 255 255 / 25%);
-  border-radius: 8px;
-}
-
 .battle {
   display: flex;
   min-height: var(--card-h);
@@ -110,76 +81,6 @@ button {
 .actions button:disabled {
   opacity: 0.5;
   cursor: default;
-}
-
-/* Cards */
-
-.card {
-  position: relative;
-  width: var(--card-w);
-  height: var(--card-h);
-  perspective: 600px;
-}
-
-.card-inner {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-}
-
-.card-face {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  backface-visibility: hidden;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 40%);
-}
-
-.card-front {
-  background: #fdfdf8;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  border: 4px solid #fdfdf8;
-  background: repeating-linear-gradient(45deg, #9b2335 0 6px, #b8394c 6px 12px);
-}
-
-.face {
-  position: relative;
-  height: 100%;
-  color: #1b1b1b;
-  font-weight: 700;
-}
-
-.face.red {
-  color: #c62828;
-}
-
-.corner {
-  position: absolute;
-  font-size: 0.85rem;
-  line-height: 1;
-  text-align: center;
-}
-
-.corner.top {
-  top: 6px;
-  left: 6px;
-}
-
-.corner.bottom {
-  right: 6px;
-  bottom: 6px;
-  transform: rotate(180deg);
-}
-
-.pip {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 2.4rem;
 }
 
 /* Side panel */

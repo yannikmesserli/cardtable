@@ -1,8 +1,8 @@
 import { type Card, isHidden, isRed, type MaybeHidden, rankLabel, SUIT_SYMBOLS } from '@cardtable/core';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import { AnimatedCard } from './AnimatedCard';
 
-interface PlayingCardProps {
+export interface PlayingCardProps {
   card: MaybeHidden;
   faceUp: boolean;
   /** Animate a flip from face down when mounting (e.g. a card just turned from a pile). */
@@ -11,7 +11,7 @@ interface PlayingCardProps {
 }
 
 /** Standard playing card (suit and rank). */
-export function PlayingCard({ card, faceUp, ...rest }: PlayingCardProps) {
+export function PlayingCard({ card, faceUp, ...rest }: PlayingCardProps): JSX.Element {
   return (
     <AnimatedCard id={card.id} faceUp={faceUp && !isHidden(card)} {...rest}>
       {!isHidden(card) && <Face card={card} />}
