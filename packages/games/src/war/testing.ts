@@ -1,4 +1,4 @@
-import { type Card, parseFace, sameFace } from '@cardtable/core';
+import { type Card, faceIs, takeCards } from '@cardtable/core';
 import type { PlayerId } from '@cardtable/engine';
 import type { WarState } from './war';
 
@@ -17,15 +17,8 @@ export function rigPiles(state: WarState, tops: Partial<Record<PlayerId, readonl
   if (state.players.some((p) => state.battle[p]!.length > 0)) throw new Error('Cannot rig piles during a battle');
 
   const pool: Card[] = state.players.flatMap((p) => state.piles[p]!);
-  const take = (label: string): Card => {
-    const face = parseFace(label);
-    const index = pool.findIndex((c) => sameFace(c, face));
-    if (index === -1) throw new Error(`Card ${label} is not available (listed twice?)`);
-    return pool.splice(index, 1)[0]!;
-  };
-
   const piles: Record<PlayerId, Card[]> = {};
-  for (const p of state.players) piles[p] = (tops[p] ?? []).map(take);
+  for (const p of state.players) piles[p] = takeCards(pool, (tops[p] ?? []).map(faceIs));
 
   const fillers = state.players.filter((p) => !exactly.includes(p));
   if (fillers.length === 0 && pool.length > 0) throw new Error(`${pool.length} cards left over`);
