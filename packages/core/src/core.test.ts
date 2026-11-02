@@ -3,13 +3,16 @@ import {
   cardLabel,
   createDeck,
   createRng,
+  faceIs,
   hide,
   isHidden,
   parseFace,
   rankValue,
   restoreRng,
   shuffle,
+  stackDeck,
   standardFaces,
+  takeCards,
 } from './index';
 
 describe('rng', () => {
@@ -101,5 +104,28 @@ describe('card helpers', () => {
     expect(rankValue(1)).toBe(1);
     expect(rankValue(1, { aceHigh: true })).toBe(14);
     expect(rankValue(13, { aceHigh: true })).toBe(13);
+  });
+});
+
+describe('stacking', () => {
+  it('puts picked cards on top, in order, keeping the rest in place', () => {
+    const deck = createDeck(createRng(1));
+    const stacked = stackDeck(deck, [faceIs('KS'), faceIs('2h')]);
+    expect(stacked.slice(0, 2).map(cardLabel)).toEqual(['K♠', '2♥']);
+    expect(stacked.slice(2)).toEqual(deck.filter((c) => !['K♠', '2♥'].includes(cardLabel(c))));
+    expect(deck).toHaveLength(52);
+  });
+
+  it('works with custom faces and predicates', () => {
+    const pool = [{ id: 'a', color: 'red' }, { id: 'b', color: 'blue' }, { id: 'c', color: 'red' }];
+    expect(takeCards(pool, [(c) => c.color === 'red', (c) => c.color === 'red'])).toEqual([
+      { id: 'a', color: 'red' },
+      { id: 'c', color: 'red' },
+    ]);
+    expect(pool).toEqual([{ id: 'b', color: 'blue' }]);
+  });
+
+  it('throws when a pick has no match left', () => {
+    expect(() => stackDeck(createDeck(createRng(1)), [faceIs('AS'), faceIs('AS')])).toThrow(/pick #1/);
   });
 });

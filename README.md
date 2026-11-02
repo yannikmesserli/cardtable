@@ -76,5 +76,5 @@ l             action log             e       toggle events
 m             menu                   q       quit
 ```
 
-Add scenarios in `apps/scenarios/src/`. `rigPiles` from `@cardtable/games/war/testing` stacks the deck.
+Add scenarios in `apps/scenarios/src/`. `stackDeck` and `takeCards` from `@cardtable/core` put chosen cards on top of a deck, using picks such as `faceIs('K♠')` or any predicate for custom faces. `rigPiles` from `@cardtable/games/war/testing` stacks War piles.
 
