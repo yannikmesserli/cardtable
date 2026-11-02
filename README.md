@@ -54,6 +54,16 @@ const result = applyAction(myGame, match, 'a', { type: 'play' }); // { ok, match
 - **Events**: `apply` emits events such as `{ type: 'move', cardId, from, to, faceUp }` or `{ type: 'shuffle', zone }`. They drive animations and logs. `moveCard` and `shuffleZone` update zones and emit these events in one call.
 - **Bots**: `simulate(game, config)` plays full matches. It's useful for property tests (see `war.test.ts`).
 
+### Choices in the middle of a rule
+
+Some rules stop halfway to ask a player something, e.g. "a card was drawn: keep it or bury it?", and then go on. The engine has no special support for this; games follow a convention:
+
+1. Keep the open question in the state (e.g. `pending`), with the card it is about in a real zone so views and animations stay consistent.
+2. While it is set, `activePlayers` and `legalActions` only offer the answers.
+3. Write the interrupted rule as a resumable function (e.g. `refill`) that stops when it opens a question. Applying the answer resolves it and calls the function again.
+
+See `packages/engine/src/pending.test.ts` for a small example.
+
 ## Scenarios
 
 `pnpm scenarios` opens a menu of hand-crafted situations (ties, double wars, running out of cards…). Inside a scenario:
