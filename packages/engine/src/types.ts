@@ -25,6 +25,12 @@ export interface MoveEvent extends GameEvent {
   readonly faceUp: boolean;
 }
 
+/** Standard event for a zone being shuffled. Renderers can animate it as a whole. */
+export interface ShuffleEvent extends GameEvent {
+  readonly type: 'shuffle';
+  readonly zone: ZoneId;
+}
+
 /** `loss` means every player lost, e.g. against the game in solo or cooperative play. */
 export type Outcome =
   | { readonly type: 'win'; readonly winners: readonly PlayerId[]; readonly reason?: string }
