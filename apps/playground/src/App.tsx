@@ -20,7 +20,14 @@ const randomSeed = () => Math.random().toString(36).slice(2, 8);
 
 function describeOutcome(outcome: Outcome): string {
   const reason = outcome.reason ? ` (${outcome.reason})` : '';
-  return outcome.type === 'draw' ? `Draw${reason}` : `${outcome.winners.map((p) => NAMES[p]).join(', ')} won the game${reason}`;
+  switch (outcome.type) {
+    case 'draw':
+      return `Draw${reason}`;
+    case 'loss':
+      return `Everyone lost${reason}`;
+    case 'win':
+      return `${outcome.winners.map((p) => NAMES[p]).join(', ')} won the game${reason}`;
+  }
 }
 
 function describeEvent(e: WarEvent, round: number): string | null {
