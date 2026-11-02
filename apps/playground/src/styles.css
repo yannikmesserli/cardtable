@@ -183,3 +183,32 @@ button {
   border: none;
   background: none;
 }
+
+/* Deck tools */
+
+.tools {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.tools .row button {
+  flex: none;
+  padding: 6px 12px;
+}
+
+.tools-table {
+  display: flex;
+  gap: 32px;
+}
+
+.zone h2 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.zone-cards {
+  display: flex;
+  gap: 8px;
+  min-height: var(--card-h);
+}
