@@ -69,6 +69,27 @@ const highCard = defineGame<HighCardState, HighCardAction, MoveEvent, HighCardSt
 
 const config = { players: ['alice', 'bob'], seed: 'test' };
 
+/** Solo test game: flip up to 3 cards, win on an ace, lose otherwise. */
+interface FindAceState {
+  deck: Card[];
+  flipped: Card[];
+}
+
+const findAce = defineGame<FindAceState, { type: 'flip' }>({
+  name: 'find-ace',
+  players: { min: 1, max: 1 },
+  setup: ({ rng }) => ({ deck: createDeck(rng), flipped: [] }),
+  activePlayers: () => ['solo'],
+  legalActions: () => [{ type: 'flip' }],
+  apply(s) {
+    s.flipped.push(s.deck.shift() as Card);
+  },
+  outcome(s) {
+    if (s.flipped.some((c) => c.rank === 1)) return { type: 'win', winners: ['solo'] };
+    return s.flipped.length === 3 ? { type: 'loss', reason: 'No ace in 3 cards' } : null;
+  },
+});
+
 describe('createMatch', () => {
   it('runs setup and returns setup events', () => {
     const { match, events } = createMatch(highCard, config);
@@ -167,6 +188,18 @@ describe('viewFor', () => {
     expect(view.hands.alice).toEqual(match.state.hands.alice);
     expect(view.hands.bob).toEqual({ id: match.state.hands.bob!.id, hidden: true });
     expect(view.deck.every((c) => 'hidden' in c)).toBe(true);
+  });
+});
+
+describe('solo games', () => {
+  it('can be won or lost by the single player', () => {
+    const outcomes = new Set<string>();
+    for (let seed = 0; seed < 50; seed++) {
+      const { step, steps } = simulate(findAce, { players: ['solo'], seed });
+      expect(steps).toBeLessThanOrEqual(3);
+      outcomes.add(step.match.outcome!.type);
+    }
+    expect(outcomes).toEqual(new Set(['win', 'loss']));
   });
 });
 

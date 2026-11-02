@@ -25,9 +25,11 @@ export interface MoveEvent extends GameEvent {
   readonly faceUp: boolean;
 }
 
+/** `loss` means every player lost, e.g. against the game in solo or cooperative play. */
 export type Outcome =
   | { readonly type: 'win'; readonly winners: readonly PlayerId[]; readonly reason?: string }
-  | { readonly type: 'draw'; readonly reason?: string };
+  | { readonly type: 'draw'; readonly reason?: string }
+  | { readonly type: 'loss'; readonly reason?: string };
 
 export interface SetupContext<E extends GameEvent, O> {
   readonly players: readonly PlayerId[];
