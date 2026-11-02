@@ -1,8 +1,8 @@
-import type { MaybeHidden } from '@cardtable/core';
-import { PlayingCard } from './PlayingCard';
+import { AnimatedCard } from './AnimatedCard';
 
 interface PileProps {
-  cards: readonly MaybeHidden[];
+  /** Any kind of card: only ids are used, faces are never shown. */
+  cards: readonly { readonly id: string }[];
   onClick?: (() => void) | undefined;
   label: string;
 }
@@ -17,9 +17,9 @@ export function Pile({ cards, onClick, label }: PileProps) {
       {cards.map((card, i) => {
         const lift = Math.max(0, MAX_LIFT - i) * 0.6;
         return (
-          <PlayingCard
+          <AnimatedCard
             key={card.id}
-            card={card}
+            id={card.id}
             faceUp={false}
             style={{ position: 'absolute', top: -lift, left: lift, zIndex: cards.length - i }}
           />

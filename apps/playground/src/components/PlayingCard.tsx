@@ -1,6 +1,6 @@
 import { type Card, isHidden, isRed, type MaybeHidden, rankLabel, SUIT_SYMBOLS } from '@cardtable/core';
-import { motion } from 'motion/react';
 import type { CSSProperties } from 'react';
+import { AnimatedCard } from './AnimatedCard';
 
 interface PlayingCardProps {
   card: MaybeHidden;
@@ -10,26 +10,12 @@ interface PlayingCardProps {
   style?: CSSProperties;
 }
 
-const move = { type: 'spring', stiffness: 260, damping: 28 } as const;
-
-/**
- * `layoutId` is the card id: when a card is rendered in another zone, Motion
- * animates it from its previous position.
- */
-export function PlayingCard({ card, faceUp, flipOnMount = false, style }: PlayingCardProps) {
-  const showFace = faceUp && !isHidden(card);
+/** Standard playing card (suit and rank). */
+export function PlayingCard({ card, faceUp, ...rest }: PlayingCardProps) {
   return (
-    <motion.div layoutId={card.id} className="card" style={style} transition={move}>
-      <motion.div
-        className="card-inner"
-        initial={flipOnMount ? { rotateY: 180 } : false}
-        animate={{ rotateY: showFace ? 0 : 180 }}
-        transition={{ duration: 0.45, ease: 'easeInOut' }}
-      >
-        <div className="card-face card-front">{!isHidden(card) && <Face card={card} />}</div>
-        <div className="card-face card-back" />
-      </motion.div>
-    </motion.div>
+    <AnimatedCard id={card.id} faceUp={faceUp && !isHidden(card)} {...rest}>
+      {!isHidden(card) && <Face card={card} />}
+    </AnimatedCard>
   );
 }
 
