@@ -11,7 +11,7 @@ Logic and animated components for building card games (War, Blackjack, Cribbageâ
 | [`@cardtable/core`](packages/core) | Cards, decks, seeded RNG. Zero dependencies. |
 | [`@cardtable/engine`](packages/engine) | Deterministic, serializable game engine: matches, validation, replay, player views, bots. |
 | [`@cardtable/games`](packages/games) | Game rules. `@cardtable/games/war` for now. |
-| [`@cardtable/react`](packages/react) | `useMatch` hook and animated card components (Motion). Import `@cardtable/react/styles.css`. |
+| [`@cardtable/react`](packages/react) | `useMatch` hook and animated cards (Motion): `PlayingCard`, `IconCard` for custom cards, `Pile`. Import `@cardtable/react/styles.css`. |
 | [`apps/playground`](apps/playground) | Vite + React + Motion playground (private). |
 | [`apps/scenarios`](apps/scenarios) | Interactive terminal scenarios to test rules by hand (private). |
 
