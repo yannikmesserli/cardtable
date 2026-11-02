@@ -2,9 +2,9 @@ import { DropIcon, FlameIcon, LeafIcon, LightningIcon, MoonIcon, StarIcon, SunIc
 import { IconCard } from '@cardtable/react';
 import { type ReactNode, useState } from 'react';
 
-const COLORS = { ember: '#c2410c', tide: '#0e7490', moss: '#4d7c0f', dusk: '#6d28d9' };
+export const COLORS = { ember: '#c2410c', tide: '#0e7490', moss: '#4d7c0f', dusk: '#6d28d9' };
 
-const ICONS: Record<string, ReactNode> = {
+export const ICONS: Record<string, ReactNode> = {
   sun: <SunIcon weight="fill" />,
   moon: <MoonIcon weight="fill" />,
   star: <StarIcon weight="fill" />,
@@ -34,6 +34,7 @@ export function CardGallery() {
     <main className="gallery">
       <header>
         <h1>Card gallery</h1>
+        <a href="#tools">Deck tools</a>
         <a href="#">Back to War</a>
       </header>
       <p className="meta">
