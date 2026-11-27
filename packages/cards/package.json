@@ -1,0 +1,77 @@
+{
+  "name": "@yannikmesserli/cards",
+  "version": "0.1.0",
+  "description": "Logic and animated React components for building card games: cards, decks, a deterministic game engine, bots and game rules.",
+  "license": "MIT",
+  "author": "Yannik Messerli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yannikmesserli/cardtable.git",
+    "directory": "packages/cards"
+  },
+  "keywords": [
+    "cards",
+    "card-game",
+    "game-engine",
+    "react",
+    "motion"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./core": {
+      "types": "./dist/core.d.mts",
+      "default": "./dist/core.mjs"
+    },
+    "./engine": {
+      "types": "./dist/engine.d.mts",
+      "default": "./dist/engine.mjs"
+    },
+    "./react": {
+      "types": "./dist/react.d.mts",
+      "default": "./dist/react.mjs"
+    },
+    "./react/styles.css": "./dist/react/styles.css",
+    "./games/war": {
+      "types": "./dist/games/war.d.mts",
+      "default": "./dist/games/war.mjs"
+    },
+    "./games/war/testing": {
+      "types": "./dist/games/war-testing.d.mts",
+      "default": "./dist/games/war-testing.mjs"
+    },
+    "./games/match": {
+      "types": "./dist/games/match.d.mts",
+      "default": "./dist/games/match.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "motion": "^14.6.0",
+    "react": "^19.3.1"
+  },
+  "peerDependenciesMeta": {
+    "motion": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  }
+}
