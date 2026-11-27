@@ -83,3 +83,12 @@ m             menu                   q       quit
 
 Add scenarios in `apps/scenarios/src/`. `stackDeck` and `takeCards` from `@cardtable/core` put chosen cards on top of a deck, using picks such as `faceIs('K♠')` or any predicate for custom faces. `rigPiles` from `@cardtable/games/war/testing` stacks War piles.
 
+## Releasing
+
+`packages/cards` bundles the workspace packages into `@yannikmesserli/cards` with tsdown. To release:
+
+1. Bump `version` in `packages/cards/package.json` and merge it to `main`.
+2. Create a GitHub release with the tag `v<version>` (e.g. `v0.2.0`).
+
+The `release` workflow then checks the tag against the version, runs the tests, typecheck and build, and publishes to npm with trusted publishing (no npm token).
+
