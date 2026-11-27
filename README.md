@@ -6,14 +6,16 @@ Logic and animated components for building card games (War, Blackjack, Cribbage�
 
 ## Packages
 
-| Package | Description |
-| --- | --- |
-| [`@cardtable/core`](packages/core) | Cards, decks, seeded RNG. Zero dependencies. |
-| [`@cardtable/engine`](packages/engine) | Deterministic, serializable game engine: matches, validation, replay, player views, bots. |
-| [`@cardtable/games`](packages/games) | Game rules: `@cardtable/games/war`, and `@cardtable/games/match`, a solitaire with custom cards. |
-| [`@cardtable/react`](packages/react) | `useMatch` hook and animated cards (Motion): `PlayingCard`, `IconCard` for custom cards, `Pile`, `Arrange`, and `useCardDrag` + `DropSlot` to drag cards onto zones. Import `@cardtable/react/styles.css`. |
-| [`apps/playground`](apps/playground) | Vite + React + Motion playground (private). |
-| [`apps/scenarios`](apps/scenarios) | Interactive terminal scenarios to test rules by hand (private). |
+Everything is published as one npm package, [`@yannikmesserli/cards`](packages/cards), with a subpath per internal package (`/core`, `/engine`, `/games/war`, `/games/match`, `/react`, `/react/styles.css`). Inside the repository the code lives in private workspace packages:
+
+| Package | Published as | Description |
+| --- | --- | --- |
+| [`@cardtable/core`](packages/core) | `/core` | Cards, decks, seeded RNG. Zero dependencies. |
+| [`@cardtable/engine`](packages/engine) | `/engine` | Deterministic, serializable game engine: matches, validation, replay, player views, bots. |
+| [`@cardtable/games`](packages/games) | `/games/war`, `/games/match` | Game rules: War, and Match, a solitaire with custom cards. |
+| [`@cardtable/react`](packages/react) | `/react` | `useMatch` hook and animated cards (Motion): `PlayingCard`, `IconCard` for custom cards, `Pile`, `Arrange`, and `useCardDrag` + `DropSlot` to drag cards onto zones. Import `/react/styles.css`. |
+| [`apps/playground`](apps/playground) | not published | Vite + React + Motion playground. |
+| [`apps/scenarios`](apps/scenarios) | not published | Interactive terminal scenarios to test rules by hand. |
 
 Dependencies only point downward: `games → engine → core`, and `react → engine → core`. Rules never import UI code.
 
@@ -26,7 +28,7 @@ pnpm test         # unit tests (Vitest)
 pnpm scenarios    # interactive scenario picker
 pnpm scenarios war-tie   # run a scenario directly
 pnpm typecheck
-pnpm build        # build publishable packages with tsdown
+pnpm build        # build @yannikmesserli/cards with tsdown
 ```
 
 ## Engine model

@@ -1,5 +1,6 @@
 {
   "name": "@cardtable/games",
+  "private": true,
   "version": "0.0.0",
   "description": "Card game rules built on @cardtable/engine.",
   "license": "MIT",
@@ -10,31 +11,11 @@
     "./war/testing": "./src/war/testing.ts",
     "./match": "./src/match/index.ts"
   },
-  "publishConfig": {
-    "exports": {
-      "./war": {
-        "types": "./dist/war/index.d.mts",
-        "default": "./dist/war/index.mjs"
-      },
-      "./war/testing": {
-        "types": "./dist/war/testing.d.mts",
-        "default": "./dist/war/testing.mjs"
-      },
-      "./match": {
-        "types": "./dist/match/index.d.mts",
-        "default": "./dist/match/index.mjs"
-      }
-    }
-  },
   "dependencies": {
     "@cardtable/core": "workspace:*",
     "@cardtable/engine": "workspace:*"
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "tsdown",
     "typecheck": "tsc --noEmit"
   }
 }
